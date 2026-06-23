@@ -41,14 +41,13 @@ public class QueueStatistics {
 
     private double computeUtilization(List<Customer> customers, Server server) {
 
-        double firstArrival = customers.get(0).getArrivalTime();
         double lastDeparture = 0;
 
         for (Customer c : customers) {
             lastDeparture = Math.max(lastDeparture, c.getServiceEndTime());
         }
 
-        double totalTime = lastDeparture - firstArrival;
+        double totalTime = lastDeparture;
 
         double idleTime = server.getTotalIdleTime();
 

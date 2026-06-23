@@ -58,8 +58,23 @@ public class BankingSimulation {
             double serviceTime = serviceDist.generate();
             c.setServiceTime(serviceTime);
 
+            // count who is still in the system when this customer arrives
+            int inSystem = 0;
+            int inQueue = 0;
+            for (Customer prev : customers) {
+                if (prev.getServiceEndTime() > arrivalTime) {
+                    inSystem++;
+                    if (prev.getServiceStartTime() > arrivalTime) {
+                        inQueue++;
+                    }
+                }
+            }
+
             // SERVER PROCESSING (FIFO LOGIC)
             server.serve(c, arrivalTime);
+
+            c.setNumberInSystem(inSystem);
+            c.setNumberInQueue(inQueue);
 
             customers.add(c);
         }

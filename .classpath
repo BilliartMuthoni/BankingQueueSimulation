@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="src" path="src"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2.jar"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2-win.jar"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2.jar"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2-win.jar"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-controls/21.0.2/javafx-controls-21.0.2.jar"/>
+  <classpathentry kind="lib" path="C:/Users/billi/.m2/repository/org/openjfx/javafx-controls/21.0.2/javafx-controls-21.0.2-win.jar"/>
+  <classpathentry kind="output" path="bin"/>
+</classpath>

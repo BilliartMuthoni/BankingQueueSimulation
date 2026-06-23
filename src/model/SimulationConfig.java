@@ -12,17 +12,14 @@ public class SimulationConfig {
 
     // Simulation settings
     private int numberOfCustomers;
-    private String queueDiscipline;
 
-    
     public SimulationConfig(double arrivalLowerBound,
                             double arrivalUpperBound,
                             double serviceLowerBound,
                             double serviceUpperBound,
-                            int numberOfCustomers,
-                            String queueDiscipline) {
+                            int numberOfCustomers) {
 
-         if (arrivalLowerBound >= arrivalUpperBound)
+        if (arrivalLowerBound >= arrivalUpperBound)
             throw new IllegalArgumentException("Arrival lower bound must be < upper bound");
 
         if (serviceLowerBound >= serviceUpperBound)
@@ -38,8 +35,6 @@ public class SimulationConfig {
         this.serviceUpperBound = serviceUpperBound;
 
         this.numberOfCustomers = numberOfCustomers;
-        this.queueDiscipline = queueDiscipline;
-
     }
 
     public double getArrivalLowerBound() {
@@ -62,7 +57,4 @@ public class SimulationConfig {
         return numberOfCustomers;
     }
 
-    public String getQueueDiscipline() {
-        return queueDiscipline;
-    }
 }

@@ -24,14 +24,14 @@ public class Server {
 
     public double serve(Customer c, double arrivalTime) {
 
+        double idleTime = 0;
         if (arrivalTime > nextAvailableTime) {
-            totalIdleTime += (arrivalTime - nextAvailableTime);
+            idleTime = arrivalTime - nextAvailableTime;
+            totalIdleTime += idleTime;
         }
 
         double serviceStart = Math.max(arrivalTime, nextAvailableTime);
-
         double waitingTime = serviceStart - arrivalTime;
-
         double serviceEnd = serviceStart + c.getServiceTime();
 
         nextAvailableTime = serviceEnd;
@@ -40,6 +40,7 @@ public class Server {
         c.setWaitingTime(waitingTime);
         c.setServiceEndTime(serviceEnd);
         c.setTimeInSystem(waitingTime + c.getServiceTime());
+        c.setServerIdleTime(idleTime);
 
         return serviceEnd;
     }

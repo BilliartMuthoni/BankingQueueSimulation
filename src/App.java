@@ -1,23 +1,50 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
+
 import model.SimulationConfig;
-import statistics.QueueStatistics;
 import simulation.BankingSimulation;
-import ui.InputScreen;
+import statistics.QueueStatistics;
 import ui.IATTableScreen;
+import ui.InputScreen;
 import ui.StatisticsScreen;
 
-public class App {
+public class App extends Application {
 
-    public static void main(String[] args) {
+    @Override
+    public void start(Stage primaryStage) {
 
+        IATTableScreen tableScreen = new IATTableScreen();
+        StatisticsScreen statsScreen = new StatisticsScreen();
         InputScreen inputScreen = new InputScreen();
-        inputScreen.show();
 
-        SimulationConfig config = inputScreen.getConfig();
+        TabPane tabPane = new TabPane();
 
-        if (config == null) {
-            System.out.println("No configuration provided. Exiting...");
-            return;
-        }
+        Tab inputTab = new Tab("Configuration", inputScreen.getView());
+        Tab tableTab = new Tab("IAT Table", tableScreen.getView());
+        Tab statsTab = new Tab("Statistics", statsScreen.getView());
+
+        inputTab.setClosable(false);
+        tableTab.setClosable(false);
+        statsTab.setClosable(false);
+
+        inputScreen.setOnRun(config -> runSimulation(config, tableScreen, statsScreen, tabPane, tableTab));
+
+        tabPane.getTabs().addAll(inputTab, tableTab, statsTab);
+
+        Scene scene = new Scene(tabPane, 900, 600);
+        primaryStage.setTitle("Banking Queue Simulation");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void runSimulation(SimulationConfig config,
+                               IATTableScreen tableScreen,
+                               StatisticsScreen statsScreen,
+                               TabPane tabPane,
+                               Tab tableTab) {
 
         BankingSimulation simulation = new BankingSimulation(config);
         simulation.run();
@@ -27,10 +54,13 @@ public class App {
 
         QueueStatistics stats = new QueueStatistics(customers, server);
 
-        IATTableScreen tableScreen = new IATTableScreen(customers);
-        tableScreen.show();
+        tableScreen.populate(customers);
+        statsScreen.populate(stats);
 
-        StatisticsScreen statisticsScreen = new StatisticsScreen(stats);
-        statisticsScreen.show();
+        tabPane.getSelectionModel().select(tableTab);
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

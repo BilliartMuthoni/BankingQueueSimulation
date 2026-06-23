@@ -14,6 +14,10 @@ public class Customer {
     private double waitingTime;
     private double timeInSystem;
 
+    private int numberInQueue;
+    private int numberInSystem;
+    private double serverIdleTime;
+
     public Customer(int customerNumber) {
         if (customerNumber <= 0) {
             throw new IllegalArgumentException("Customer number must be positive");
@@ -46,8 +50,20 @@ public class Customer {
         this.waitingTime = v; 
     }
 
-    public void setTimeInSystem(double v) { 
-        this.timeInSystem = v; 
+    public void setTimeInSystem(double v) {
+        this.timeInSystem = v;
+    }
+
+    public void setNumberInQueue(int v) {
+        this.numberInQueue = v;
+    }
+
+    public void setNumberInSystem(int v) {
+        this.numberInSystem = v;
+    }
+
+    public void setServerIdleTime(double v) {
+        this.serverIdleTime = v;
     }
 
     // getters
@@ -79,8 +95,20 @@ public class Customer {
         return waitingTime; 
     }
 
-    public double getTimeInSystem() { 
-        return timeInSystem; 
+    public double getTimeInSystem() {
+        return timeInSystem;
+    }
+
+    public int getNumberInQueue() {
+        return numberInQueue;
+    }
+
+    public int getNumberInSystem() {
+        return numberInSystem;
+    }
+
+    public double getServerIdleTime() {
+        return serverIdleTime;
     }
 
     @Override

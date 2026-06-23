@@ -1,76 +1,96 @@
 package ui;
 
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import model.SimulationConfig;
 
-import java.util.Scanner;
+public class InputScreen {
 
-public class InputScreen extends Screen {
+    private final VBox root = new VBox(10);
 
-    private SimulationConfig config;
+    private RunnableWithConfig onRun;
+
+    private final TextField numCustomers = new TextField("100");
+    private final TextField arrivalLow = new TextField("1.0");
+    private final TextField arrivalHigh = new TextField("8.0");
+    private final TextField serviceLow = new TextField("1.0");
+    private final TextField serviceHigh = new TextField("6.0");
 
     public InputScreen() {
-        super("BANKING QUEUE SIMULATION INPUT SCREEN");
-    }
 
-    @Override
-    protected void display() {
+        root.setPadding(new javafx.geometry.Insets(15));
 
-        Scanner sc = new Scanner(System.in);
+        Label title = new Label("Banking Queue Simulation");
+        title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-        int numCustomers = readInt(sc,
-                "Number of customers [100]: ", 100);
+        Button runBtn = new Button("Run Simulation");
+        Button resetBtn = new Button("Reset");
 
-        double arrivalLow = readDouble(sc,
-                "Arrival lower bound [1.0]: ", 1.0);
+        runBtn.setOnAction(e -> runSimulation());
+        resetBtn.setOnAction(e -> resetFields());
 
-        double arrivalHigh = readDouble(sc,
-                "Arrival upper bound [8.0]: ", 8.0);
-
-        double serviceLow = readDouble(sc,
-                "Service lower bound [1.0]: ", 1.0);
-
-        double serviceHigh = readDouble(sc,
-                "Service upper bound [6.0]: ", 6.0);
-
-        config = new SimulationConfig(
-                arrivalLow,
-                arrivalHigh,
-                serviceLow,
-                serviceHigh,
-                numCustomers,
-                "FIFO"
+        root.getChildren().addAll(
+                title,
+                new Label("Number of Customers"), numCustomers,
+                new Label("Arrival Lower Bound"), arrivalLow,
+                new Label("Arrival Upper Bound"), arrivalHigh,
+                new Label("Service Lower Bound"), serviceLow,
+                new Label("Service Upper Bound"), serviceHigh,
+                runBtn,
+                resetBtn
         );
-
-        System.out.println("Input accepted. Simulation ready.");
     }
 
-    private int readInt(Scanner sc, String prompt, int defaultVal) {
-        System.out.print(prompt);
-        String input = sc.nextLine().trim();
+    private void runSimulation() {
 
-        if (input.isEmpty()) return defaultVal;
+        try{
 
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            return defaultVal;
+            SimulationConfig config = new SimulationConfig(
+                    Double.parseDouble(arrivalLow.getText()),
+                    Double.parseDouble(arrivalHigh.getText()),
+                    Double.parseDouble(serviceLow.getText()),
+                    Double.parseDouble(serviceHigh.getText()),
+                    Integer.parseInt(numCustomers.getText())
+            );
+
+            if (onRun != null) {
+                onRun.run(config);
+            }
+        }
+
+        catch (NumberFormatException e) {
+            showError("Invalid Input", "All fields must be valid numbers.\nCustomers must be a whole number.");
+        } catch (IllegalArgumentException e) {
+            showError("Invalid Configuration", e.getMessage());
         }
     }
 
-    private double readDouble(Scanner sc, String prompt, double defaultVal) {
-        System.out.print(prompt);
-        String input = sc.nextLine().trim();
-
-        if (input.isEmpty()) return defaultVal;
-
-        try {
-            return Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            return defaultVal;
-        }
+    private void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
-    public SimulationConfig getConfig() {
-        return config;
+    private void resetFields() {
+        numCustomers.setText("100");
+        arrivalLow.setText("1.0");
+        arrivalHigh.setText("8.0");
+        serviceLow.setText("1.0");
+        serviceHigh.setText("6.0");
+    }
+
+    public Node getView() {
+        return root;
+    }
+
+    public void setOnRun(RunnableWithConfig onRun) {
+        this.onRun = onRun;
+    }
+
+    public interface RunnableWithConfig {
+        void run(SimulationConfig config);
     }
 }
