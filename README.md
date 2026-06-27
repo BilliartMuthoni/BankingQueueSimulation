@@ -1,18 +1,32 @@
-## Getting Started
+Banking Queue Simulation
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+ICS 4106 — Computer Simulation and Modeling  
+Simulate a banking system where inter-arrival times are uniformly distributed on (1, 8) minutes and service times are uniformly distributed on (1, 6) minutes, for 100 customers.
 
-## Folder Structure
 
-The workspace contains two folders by default, where:
+Features
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Configurable input screen for arrival and service distribution bounds
+Full IAT simulation table with all queue metrics per customer
+Queue statistics including averages, probabilities, and server utilization
+Export results to CSV (opens in Excel)
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+How to Run
 
-## Dependency Management
+Open the project in IntelliJ IDEA
+Ensure JavaFX SDK 21 is configured in Project Structure
+Run App.java
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+Project Structure
+
+src/
+  App.java                  - Entry point
+  model/                    - Customer, Server, SimulationConfig
+  simulation/               - BankingSimulation (core logic)
+  distribution/             - UniformDistribution
+  statistics/               - QueueStatistics
+  ui/                       - InputScreen, IATTableScreen, StatisticsScreen
+  export/                   - CsvExporter
+
