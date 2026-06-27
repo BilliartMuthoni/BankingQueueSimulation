@@ -21,10 +21,11 @@ public class App extends Application {
         InputScreen inputScreen = new InputScreen();
 
         TabPane tabPane = new TabPane();
+        tabPane.setStyle("-fx-tab-min-width: 120px;");
 
         Tab inputTab = new Tab("Configuration", inputScreen.getView());
-        Tab tableTab = new Tab("IAT Table", tableScreen.getView());
-        Tab statsTab = new Tab("Statistics", statsScreen.getView());
+        Tab tableTab = new Tab("IAT Table",     tableScreen.getView());
+        Tab statsTab = new Tab("Statistics",    statsScreen.getView());
 
         inputTab.setClosable(false);
         tableTab.setClosable(false);
@@ -34,7 +35,7 @@ public class App extends Application {
 
         tabPane.getTabs().addAll(inputTab, tableTab, statsTab);
 
-        Scene scene = new Scene(tabPane, 900, 600);
+        Scene scene = new Scene(tabPane, 1000, 680);
         primaryStage.setTitle("Banking Queue Simulation");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -50,7 +51,7 @@ public class App extends Application {
         simulation.run();
 
         var customers = simulation.getCustomers();
-        var server = simulation.getServer();
+        var server    = simulation.getServer();
 
         QueueStatistics stats = new QueueStatistics(customers, server);
 
